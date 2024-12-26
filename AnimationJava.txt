@@ -1,0 +1,34 @@
+package com.example.simpleanimationapp;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        final View animatedSquare = findViewById(R.id.animatedSquare);
+        Button startButton = findViewById(R.id.startButton);
+
+        startButton.setOnClickListener(v -> {
+
+            ObjectAnimator translateX = ObjectAnimator.ofFloat(animatedSquare, "translationX", 200f);
+
+            ObjectAnimator translateY = ObjectAnimator.ofFloat(animatedSquare, "translationY", 200f);
+            ObjectAnimator rotate = ObjectAnimator.ofFloat(animatedSquare, "rotation", 0f, 360f);
+
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.playTogether(translateX, translateY, rotate);
+            translateX.setRepeatCount(ObjectAnimator.INFINITE);
+            translateX.setRepeatMode(ObjectAnimator.REVERSE);
+            animatorSet.setDuration(2000);
+            animatorSet.start();
+        });
+    }
+}
+
+
+

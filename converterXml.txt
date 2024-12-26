@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/inputTemperature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter temperature"
+        android:inputType="numberDecimal" />
+
+    <Spinner
+        android:id="@+id/spinnerInputUnit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/temperature_units"
+        android:spinnerMode="dropdown" />
+
+    <Button
+        android:id="@+id/btnToFahrenheit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Convert to Fahrenheit" />
+
+    <Button
+        android:id="@+id/btnToCelsius"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Convert to Celsius" />
+
+    <Button
+        android:id="@+id/btnToKelvin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Convert to Kelvin" />
+
+    <TextView
+        android:id="@+id/outputTemperature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:textSize="18sp"
+        android:text="Converted temperature will appear here" />
+</LinearLayout>

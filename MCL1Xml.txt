@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- EditText for Name -->
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your name" />
+
+    <!-- AutoCompleteTextView for Favorite Color -->
+    <AutoCompleteTextView
+        android:id="@+id/actvColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etName"
+        android:layout_marginTop="16dp"
+        android:hint="Enter your favorite color" />
+
+    <!-- RadioGroup for Gender -->
+    <RadioGroup
+        android:id="@+id/rgGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/actvColor"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male" />
+
+        <RadioButton
+            android:id="@+id/rbFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female" />
+
+        <RadioButton
+            android:id="@+id/rbOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Other" />
+    </RadioGroup>
+
+    <!-- Checkboxes for Hobbies -->
+    <CheckBox
+        android:id="@+id/cbReading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rgGender"
+        android:layout_marginTop="16dp"
+        android:text="Reading" />
+
+    <CheckBox
+        android:id="@+id/cbGaming"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cbReading"
+        android:text="Gaming" />
+
+    <CheckBox
+        android:id="@+id/cbTraveling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cbGaming"
+        android:text="Traveling" />
+
+    <!-- Toggle Button -->
+    <ToggleButton
+        android:id="@+id/toggleNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cbTraveling"
+        android:layout_marginTop="16dp"
+        android:textOff="Notifications Off"
+        android:textOn="Notifications On" />
+
+    <!-- Image Button -->
+    <ImageButton
+        android:id="@+id/imgButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toggleNotification"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Submit Icon"
+        android:src="@android:drawable/ic_menu_send" />
+
+    <!-- Submit Button -->
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgButton"
+        android:layout_marginTop="16dp"
+        android:text="Submit" />
+</RelativeLayout>

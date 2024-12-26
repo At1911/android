@@ -1,0 +1,72 @@
+package com.example.mytodolist;
+
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.EditText;
+import android.widget.ListView;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+
+public class MainActivity extends AppCompatActivity {
+
+    private HashMap<String, ArrayList<String>> tasksMap;
+    private ArrayList<String> tasksForSelectedDate;
+    private ArrayAdapter<String> adapter;
+    private String selectedDate;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        CalendarView calendarView = findViewById(R.id.calendarView);
+        EditText inputTask = findViewById(R.id.inputTask);
+        Button addButton = findViewById(R.id.addButton);
+        ListView taskListView = findViewById(R.id.taskListView);
+
+        tasksMap = new HashMap<>();
+        tasksForSelectedDate = new ArrayList<>();
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tasksForSelectedDate);
+        taskListView.setAdapter(adapter);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        selectedDate = sdf.format(new Date());
+
+        calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            selectedDate = String.format(Locale.getDefault(), "%02d-%02d-%d", dayOfMonth, month + 1, year);
+            updateTaskListForSelectedDate();
+        });
+
+        addButton.setOnClickListener(v -> {
+            String task = inputTask.getText().toString().trim();
+            if (!task.isEmpty()) {
+                addTaskToSelectedDate(task);
+                inputTask.setText("");
+            }
+        });
+    }
+    private void addTaskToSelectedDate(String task) {
+        if (!tasksMap.containsKey(selectedDate)) {
+            tasksMap.put(selectedDate, new ArrayList<>());
+        }
+        tasksMap.get(selectedDate).add(task);
+
+        updateTaskListForSelectedDate();
+    }
+
+    private void updateTaskListForSelectedDate() {
+        tasksForSelectedDate.clear();
+        if (tasksMap.containsKey(selectedDate)) {
+            tasksForSelectedDate.addAll(tasksMap.get(selectedDate));
+        }
+        adapter.notifyDataSetChanged();
+    }
+}

@@ -1,0 +1,88 @@
+package com.example.mycalendar;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+
+    private RecyclerView calendarRecyclerView;
+    private CalendarAdapter calendarAdapter;
+    private TextView currentMonthText;
+    private TextView selectedDateText;  // TextView for showing selected date
+    private Button nextMonthButton, prevMonthButton;
+    private Calendar currentCalendar;
+    private String selectedDate;
+    private List<String> daysOfMonth = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
+        currentMonthText = findViewById(R.id.currentMonthText);
+        selectedDateText = findViewById(R.id.selectedDateText);
+        nextMonthButton = findViewById(R.id.nextMonthButton);
+        prevMonthButton = findViewById(R.id.prevMonthButton);
+        currentCalendar = Calendar.getInstance();
+
+        calendarRecyclerView.setLayoutManager(new GridLayoutManager(this, 7));
+
+        updateCalendarView();
+
+        nextMonthButton.setOnClickListener(v -> {
+            currentCalendar.add(Calendar.MONTH, 1);
+            updateCalendarView();
+        });
+
+        prevMonthButton.setOnClickListener(v -> {
+            currentCalendar.add(Calendar.MONTH, -1);
+            updateCalendarView();
+        });
+    }
+
+    private void updateCalendarView() {
+        String monthYear = android.text.format.DateFormat.format("MMMM yyyy", currentCalendar).toString();
+        currentMonthText.setText(monthYear);
+
+        daysOfMonth = getDaysOfMonth();
+        calendarAdapter = new CalendarAdapter(daysOfMonth, this, day -> {
+            selectedDate = day;
+            selectedDateText.setText("Selected Date: " + selectedDate + "/" +
+                    (currentCalendar.get(Calendar.MONTH) + 1) + "/" +
+                    currentCalendar.get(Calendar.YEAR));
+            updateCalendarView();
+        }, selectedDate);
+        calendarRecyclerView.setAdapter(calendarAdapter);
+    }
+
+    private List<String> getDaysOfMonth() {
+        List<String> days = new ArrayList<>();
+        Calendar calendar = (Calendar) currentCalendar.clone();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        int maxDaysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        for (int i = 0; i < firstDayOfWeek; i++) {
+            days.add("");
+        }
+
+        for (int i = 1; i <= maxDaysInMonth; i++) {
+            days.add(String.valueOf(i));
+        }
+
+        return days;
+    }
+}
+

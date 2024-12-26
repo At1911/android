@@ -1,0 +1,69 @@
+package com.example.simpleui;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+import android.widget.ToggleButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Initialize Views
+        EditText etName = findViewById(R.id.etName);
+        AutoCompleteTextView actvColor = findViewById(R.id.actvColor);
+        RadioGroup rgGender = findViewById(R.id.rgGender);
+        CheckBox cbReading = findViewById(R.id.cbReading);
+        CheckBox cbGaming = findViewById(R.id.cbGaming);
+        CheckBox cbTraveling = findViewById(R.id.cbTraveling);
+        ToggleButton toggleNotification = findViewById(R.id.toggleNotification);
+        Button btnSubmit = findViewById(R.id.btnSubmit);
+        ImageButton imgButton = findViewById(R.id.imgButton);
+
+        // Set AutoCompleteTextView Adapter
+        String[] colors = {"Red", "Blue", "Green", "Yellow", "Black", "White"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, colors);
+        actvColor.setAdapter(adapter);
+
+        // Submit Button Listener
+        btnSubmit.setOnClickListener(view -> {
+            String name = etName.getText().toString();
+            String color = actvColor.getText().toString();
+            String gender = "";
+
+            int selectedGenderId = rgGender.getCheckedRadioButtonId();
+            if (selectedGenderId != -1) {
+                RadioButton selectedGender = findViewById(selectedGenderId);
+                gender = selectedGender.getText().toString();
+            }
+
+            StringBuilder hobbies = new StringBuilder();
+            if (cbReading.isChecked()) hobbies.append("Reading ");
+            if (cbGaming.isChecked()) hobbies.append("Gaming ");
+            if (cbTraveling.isChecked()) hobbies.append("Traveling ");
+
+            boolean notifications = toggleNotification.isChecked();
+
+            Toast.makeText(MainActivity.this,
+                    "Name: " + name + "\nColor: " + color + "\nGender: " + gender +
+                            "\nHobbies: " + hobbies + "\nNotifications: " + (notifications ? "On" : "Off"),
+                    Toast.LENGTH_LONG).show();
+        });
+
+        // Image Button Listener
+        imgButton.setOnClickListener(view -> Toast.makeText(MainActivity.this, "Image Button Clicked", Toast.LENGTH_SHORT).show());
+    }
+}

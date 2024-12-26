@@ -1,0 +1,7 @@
+<resources>
+    <color name="red">#FF0000</color>        <!-- Red for Sunday -->
+    <color name="green">#008000</color>      <!-- Green for Saturday -->
+    <color name="black">#000000</color>      <!-- Default color for weekdays -->
+    <color name="blue">#0000FF</color>       <!-- Blue for any other usage -->
+    <color name="dark_gray">#A9A9A9</color>  <!-- Dark gray for any other usage -->
+</resources>

@@ -1,0 +1,77 @@
+package com.example.mycalendar;
+
+import android.content.Context;
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.List;
+
+public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder> {
+
+    private final List<String> daysOfMonth;
+    private final Context context;
+    private final OnDateClickListener onDateClickListener;
+    private final String selectedDate;
+
+    public CalendarAdapter(List<String> daysOfMonth, Context context, OnDateClickListener onDateClickListener, String selectedDate) {
+        this.daysOfMonth = daysOfMonth;
+        this.context = context;
+        this.onDateClickListener = onDateClickListener;
+        this.selectedDate = selectedDate;
+    }
+
+    @NonNull
+    @Override
+    public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.calendar_day_item, parent, false);
+        return new CalendarViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
+        String day = daysOfMonth.get(position);
+        holder.dateTextView.setText(day);
+
+        if (position % 7 == 0) {
+            holder.dateTextView.setTextColor(ContextCompat.getColor(context, R.color.red));
+        } else if (position % 7 == 6) {
+            holder.dateTextView.setTextColor(ContextCompat.getColor(context, R.color.green));
+        } else {
+            holder.dateTextView.setTextColor(ContextCompat.getColor(context, R.color.black));
+        }
+
+        if (day.equals(selectedDate)) {
+            holder.itemView.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.darker_gray));
+        } else {
+            holder.itemView.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
+        }
+
+        holder.itemView.setOnClickListener(v -> onDateClickListener.onDateClick(day));
+    }
+
+    @Override
+    public int getItemCount() {
+        return daysOfMonth.size();
+    }
+
+    public static class CalendarViewHolder extends RecyclerView.ViewHolder {
+        TextView dateTextView;
+        CardView itemView;
+
+        public CalendarViewHolder(@NonNull View itemView) {
+            super(itemView);
+            dateTextView = itemView.findViewById(R.id.dateText);
+            this.itemView = (CardView) itemView;
+        }
+    }
+
+    public interface OnDateClickListener {
+        void onDateClick(String day);
+    }
+}

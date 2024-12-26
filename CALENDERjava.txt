@@ -1,0 +1,67 @@
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.widget.GridLayout;
+import android.widget.TextView;
+
+import com.example.myapplication.R;
+
+import java.util.Calendar;
+
+public class MainActivity extends AppCompatActivity {
+
+    private GridLayout calendarLayout;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        calendarLayout = findViewById(R.id.calendarLayout);
+
+        // Display the calendar
+        displayCalendar();
+    }
+
+    private void displayCalendar() {
+        Calendar calendar = Calendar.getInstance();
+
+        // Add day headers
+        String[] days = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+        for (String day : days) {
+            TextView dayHeader = new TextView(this);
+            dayHeader.setText(day);
+            dayHeader.setPadding(16, 16, 16, 16);
+            dayHeader.setTextColor(Color.BLACK);
+            dayHeader.setBackgroundColor(Color.LTGRAY);
+            calendarLayout.addView(dayHeader);
+        }
+
+        int currentMonth = calendar.get(Calendar.MONTH);
+
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        for (int i = 1; i < firstDayOfWeek; i++) {
+            TextView emptyTextView = new TextView(this);
+            emptyTextView.setText("");
+            calendarLayout.addView(emptyTextView);
+        }
+
+        for (int day = 1; day <= daysInMonth; day++) {
+            TextView dayTextView = new TextView(this);
+            dayTextView.setText(String.valueOf(day));
+            dayTextView.setPadding(16, 16, 16, 16);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                dayTextView.setTextColor(Color.RED);
+            }
+
+            calendarLayout.addView(dayTextView);
+        }
+    }
+}
