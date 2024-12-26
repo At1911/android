@@ -1,0 +1,30 @@
+package com.example.calender;
+
+import android.os.Bundle;
+import android.widget.CalendarView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Initialize the CalendarView widget
+        CalendarView calendarView = findViewById(R.id.calendarView);
+
+        // Set a listener for when the user selects a date
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                // Month is zero-based in CalendarView, so adding 1 for correct month display
+                String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+
+                // Display a Toast message with the selected date
+                Toast.makeText(MainActivity.this, "Selected Date: " + selectedDate, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
